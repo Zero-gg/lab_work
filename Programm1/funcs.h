@@ -7,21 +7,21 @@
 
 #include <string>
 
-// Структура для записи полей преподавателя
+// РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ Р·Р°РїРёСЃРё РїРѕР»РµР№ РїСЂРµРїРѕРґР°РІР°С‚РµР»СЏ
 struct Teacher {
     std::string surname;
     std::string post;
     std::string subject;
 };
 
-// Структура для записи полей экзаменов
+// РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ Р·Р°РїРёСЃРё РїРѕР»РµР№ СЌРєР·Р°РјРµРЅРѕРІ
 struct Exam {
     std::string subject;
     std::string date;
     std::string group;
 };
 
-// === ПРОТОТИПЫ ФУНКЦИЙ ===
+// === РџР РћРўРћРўРРџР« Р¤РЈРќРљР¦РР™ ===
 void Main_Menu1();
 void Append_Teachers();
 void Append_Exams();
@@ -30,20 +30,20 @@ void Rewrite_Exams();
 void Pause_And_Return();
 void ClearScreen();
 
-// === Функции-валидаторы ===
+// === Р¤СѓРЅРєС†РёРё-РІР°Р»РёРґР°С‚РѕСЂС‹ ===
 bool isValidSurname(const char* str);
 bool isValidPost(const char* str);
 bool isValidSubject(const char* str);
 bool isValidDate(const char* str);
 bool isValidGroupNumber(const char* str);
 
-// === Функции для нормализации введённых пользователем данных ===
+// === Р¤СѓРЅРєС†РёРё РґР»СЏ РЅРѕСЂРјР°Р»РёР·Р°С†РёРё РІРІРµРґС‘РЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј РґР°РЅРЅС‹С… ===
 void normalizeSurname(char* str);
 void normalizeSentenceCase(char* str);
 void normalizeGroupNumber(char* str);
 
 
-// === Безопасный ввод символа в меню ===
+// === Р‘РµР·РѕРїР°СЃРЅС‹Р№ РІРІРѕРґ СЃРёРјРІРѕР»Р° РІ РјРµРЅСЋ ===
 int safe_input_int();
 
 #endif //PROGRAMM1_FUNCS_H
