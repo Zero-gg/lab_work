@@ -2,8 +2,8 @@
 // Created by Dmitriy K on 07.11.2025.
 //
 
-#ifndef UNTITLED1_FUNCS_H
-#define UNTITLED1_FUNCS_H
+#ifndef PROGRAMM2_FUNCS_H
+#define PROGRAMM2_FUNCS_H
 
 #include <string>
 #include <vector>
@@ -21,7 +21,7 @@ struct Exam {
     std::string group;
 };
 
-// === ПРОТОТИПЫ ФУНКЦИЙ ===
+// === РџР РћРўРћРўРРџР« Р¤РЈРќРљР¦РР™ ===
 void Main_Menu2();
 bool Check_File_Availability();
 void File_Report();
@@ -31,11 +31,11 @@ void Clean_Subject_Key(char* key);
 void Display_Subject_Data();
 void ClearScreen();
 
-// === Проверка и нормализация ввода ===
+// === РџСЂРѕРІРµСЂРєР° Рё РЅРѕСЂРјР°Р»РёР·Р°С†РёСЏ РІРІРѕРґР° ===
 bool isValidSubject(const char* str);
 void normalizeSentenceCase(char* str);
 
-// === Безопасный ввод символа в меню ===
+// === Р‘РµР·РѕРїР°СЃРЅС‹Р№ РІРІРѕРґ СЃРёРјРІРѕР»Р° РІ РјРµРЅСЋ ===
 int safe_input_int();
 
-#endif //UNTITLED1_FUNCS_H
+#endif //PROGRAMM2_FUNCS_H
