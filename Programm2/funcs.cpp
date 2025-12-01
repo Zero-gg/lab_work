@@ -14,10 +14,10 @@
 #include <cctype>
 
 
-#define FILENAME_TEACHERS "teachers.txt"
-#define FILENAME_EXAMS "exams.txt"
-#define FILENAME_REPORT "report.txt"
-#define NO_DATA "НЕТ ДАННЫХ"
+const std::string FILENAME_TEACHERS = "teachers.txt";
+const std::string FILENAME_EXAMS = "exams.txt";
+const std::string FILENAME_REPORT = "report.txt";
+const std::string NO_DATA = "НЕТ ДАННЫХ";
 
 void Main_Menu2() {
 
@@ -64,7 +64,7 @@ void Main_Menu2() {
  * Индекс: [Ключ: Предмет] -> [Значение: список смещений (long) в файле]
  */
 void Build_Exam_Index(std::map<std::string, std::vector<long>>& index) {
-    FILE* exams_file = fopen(FILENAME_EXAMS, "rb");
+    FILE* exams_file = fopen(FILENAME_EXAMS.c_str(), "rb");
     if (!exams_file) return;
 
     char line[512];
@@ -108,9 +108,9 @@ void File_Report() {
     }
 
     // 2. Открытие файлов (с проверкой)
-    FILE* teachers_file = fopen(FILENAME_TEACHERS, "r");
-    FILE* exams_file = fopen(FILENAME_EXAMS, "rb");
-    FILE* report_file = fopen(FILENAME_REPORT, "w");
+    FILE* teachers_file = fopen(FILENAME_TEACHERS.c_str(), "r");
+    FILE* exams_file = fopen(FILENAME_EXAMS.c_str(), "rb");
+    FILE* report_file = fopen(FILENAME_REPORT.c_str(), "w");
 
     if (!teachers_file || !exams_file || !report_file) {
         printf("! ОШИБКА: Не удалось открыть один из файлов для отчета.\n");
@@ -147,9 +147,9 @@ void File_Report() {
         if (!surname && !post && !subject) continue;
 
         // --- Подготовка полей для вывода ---
-        const char *out_surname = surname ? surname : NO_DATA;
-        const char *out_post = post ? post : NO_DATA;
-        const char *out_subject = subject ? subject : NO_DATA;
+        const char *out_surname = surname ? surname : NO_DATA.c_str();
+        const char *out_post = post ? post : NO_DATA.c_str();
+        const char *out_subject = subject ? subject : NO_DATA.c_str();
 
         // Ключ для поиска - обязательно очищен!
         char search_key[256];
@@ -157,7 +157,7 @@ void File_Report() {
             strcpy(search_key, subject);
             Clean_Subject_Key(search_key);
         } else {
-            strcpy(search_key, NO_DATA);
+            strcpy(search_key, NO_DATA.c_str());
         }
 
         subjects_with_teachers.insert(search_key);
@@ -187,8 +187,8 @@ void File_Report() {
                         }
                     }
 
-                    const char *out_group = ex_group ? ex_group : NO_DATA;
-                    const char *out_date = ex_date ? ex_date : NO_DATA;
+                    const char *out_group = ex_group ? ex_group : NO_DATA.c_str();
+                    const char *out_date = ex_date ? ex_date : NO_DATA.c_str();
 
                     if (ex_date) ((char*)out_date)[strcspn(out_date, "\r\n")] = 0;
 
@@ -201,7 +201,7 @@ void File_Report() {
             // --- СЛУЧАЙ Б: НЕТ СОВПАДЕНИЯ (Teacher Orphan) ---
             // Вывод преподавателя + NO_DATA для экзаменов
              fprintf(report_file, "%-40s | %-25s | %-25s | %-15s | %-12s\n",
-                    search_key, out_surname, out_post, NO_DATA, NO_DATA);
+                    search_key, out_surname, out_post, NO_DATA.c_str(), NO_DATA.c_str());
             total_records++;
         }
     }
@@ -227,14 +227,14 @@ void File_Report() {
                     char *ex_group = strtok(NULL, ";");
                     char *ex_date = strtok(NULL, ";");
 
-                    const char *out_group = ex_group ? ex_group : NO_DATA;
-                    const char *out_date = ex_date ? ex_date : NO_DATA;
+                    const char *out_group = ex_group ? ex_group : NO_DATA.c_str();
+                    const char *out_date = ex_date ? ex_date : NO_DATA.c_str();
 
                     if (ex_date) ((char*)out_date)[strcspn(out_date, "\r\n")] = 0;
 
                     // Вывод строки с NO_DATA для преподавателей
                     fprintf(report_file, "%-40s | %-25s | %-25s | %-15s | %-12s\n",
-                            exam_subject.c_str(), NO_DATA, NO_DATA, out_group, out_date);
+                            exam_subject.c_str(), NO_DATA.c_str(), NO_DATA.c_str(), out_group, out_date);
                     total_records++;
                 }
             }
@@ -246,7 +246,7 @@ void File_Report() {
     fclose(exams_file);
     fclose(report_file);
 
-    printf("\nОтчет '%s' успешно сгенерирован!\n", FILENAME_REPORT);
+    printf("\nОтчет '%s' успешно сгенерирован!\n", FILENAME_REPORT.c_str());
     printf("   Всего записей в отчете: %d\n", total_records);
     Pause_And_Return();
 }
@@ -288,7 +288,7 @@ void Display_Subject_Data() {
     }
 
     // Добавляем предметы из преподавателей
-    FILE* teachers_scan = fopen(FILENAME_TEACHERS, "r");
+    FILE* teachers_scan = fopen(FILENAME_TEACHERS.c_str(), "r");
     if (teachers_scan) {
         char scan_line[512];
         while (fgets(scan_line, sizeof(scan_line), teachers_scan) != NULL) {
@@ -306,7 +306,7 @@ void Display_Subject_Data() {
                 Clean_Subject_Key(clean_sub); // Обязательно чистим!
 
                 // Добавляем в set (дубликаты сами отсеются)
-                if (strlen(clean_sub) > 0 && strcmp(clean_sub, NO_DATA) != 0) {
+                if (strlen(clean_sub) > 0 && strcmp(clean_sub, NO_DATA.c_str()) != 0) {
                     all_subjects.insert(clean_sub);
                 }
             }
@@ -366,8 +366,8 @@ void Display_Subject_Data() {
     const char* search_key = input_subject;
 
     // 4. Открытие файлов для поиска
-    FILE* teachers_file = fopen(FILENAME_TEACHERS, "r");
-    FILE* exams_file = fopen(FILENAME_EXAMS, "rb"); // Бинарный для fseek!
+    FILE* teachers_file = fopen(FILENAME_TEACHERS.c_str(), "r");
+    FILE* exams_file = fopen(FILENAME_EXAMS.c_str(), "rb"); // Бинарный для fseek!
 
     if (!teachers_file || !exams_file) {
         printf("! ОШИБКА: Не удалось открыть файлы для чтения.\n");
@@ -405,8 +405,8 @@ void Display_Subject_Data() {
             // Сравниваем предмет из файла с введенным
             if (strcmp(current_key, search_key) == 0) {
 
-                const char *out_surname = surname ? surname : NO_DATA;
-                const char *out_post = post ? post : NO_DATA;
+                const char *out_surname = surname ? surname : NO_DATA.c_str();
+                const char *out_post = post ? post : NO_DATA.c_str();
 
                 // Проверяем, есть ли экзамены для этого предмета
                 if (exam_index.count(search_key)) {
@@ -427,8 +427,8 @@ void Display_Subject_Data() {
                                 if (ex_group) ex_date = strtok(NULL, ";");
                             }
 
-                            const char *out_group = ex_group ? ex_group : NO_DATA;
-                            const char *out_date = ex_date ? ex_date : NO_DATA;
+                            const char *out_group = ex_group ? ex_group : NO_DATA.c_str();
+                            const char *out_date = ex_date ? ex_date : NO_DATA.c_str();
                             if (ex_date) ((char*)out_date)[strcspn(out_date, "\r\n")] = 0;
 
                             printf("%-40s | %-25s | %-25s | %-15s | %-12s\n",
@@ -439,7 +439,7 @@ void Display_Subject_Data() {
                 } else {
                     // Преподаватель есть, экзаменов нет
                     printf("%-40s | %-25s | %-25s | %-15s | %-12s\n",
-                            search_key, out_surname, out_post, NO_DATA, NO_DATA);
+                            search_key, out_surname, out_post, NO_DATA.c_str(), NO_DATA.c_str());
                     record_found = true;
                 }
             }
@@ -472,12 +472,12 @@ void Display_Subject_Data() {
                         if (ex_group) ex_date = strtok(NULL, ";");
                     }
 
-                    const char *out_group = ex_group ? ex_group : NO_DATA;
-                    const char *out_date = ex_date ? ex_date : NO_DATA;
+                    const char *out_group = ex_group ? ex_group : NO_DATA.c_str();
+                    const char *out_date = ex_date ? ex_date : NO_DATA.c_str();
                     if (ex_date) ((char*)out_date)[strcspn(out_date, "\r\n")] = 0;
 
                     printf("%-40s | %-25s | %-25s | %-15s | %-12s\n",
-                           search_key, NO_DATA, NO_DATA, out_group, out_date);
+                           search_key, NO_DATA.c_str(), NO_DATA.c_str(), out_group, out_date);
                     record_found = true;
                 }
              }
@@ -499,8 +499,8 @@ bool Check_File_Availability() {
     FILE* exams_file = NULL;
 
     // 1. Пытаемся открыть оба файла в режиме "чтения" ("r")
-    teachers_file = fopen(FILENAME_TEACHERS, "r");
-    exams_file = fopen(FILENAME_EXAMS, "r");
+    teachers_file = fopen(FILENAME_TEACHERS.c_str(), "r");
+    exams_file = fopen(FILENAME_EXAMS.c_str(), "r");
 
     // 2. Анализируем, что удалось открыть
     bool teachers_exist = (teachers_file != NULL);
@@ -517,29 +517,29 @@ bool Check_File_Availability() {
     // 4. Проверки на то, какого файла не достаёт
     // Случай 1: Оба файла есть
     if (teachers_exist && exams_exist) {
-        printf("\nСтатус: Оба файла (%s и %s) найдены.\n", FILENAME_TEACHERS, FILENAME_EXAMS);
+        printf("\nСтатус: Оба файла (%s и %s) найдены.\n", FILENAME_TEACHERS.c_str(), FILENAME_EXAMS.c_str());
         printf("Можно приступать к работе с файлами.\n");
         Pause_And_Return();
         return true;
     }
     // Случай 2: Ни одного файла нет
     else if (!teachers_exist && !exams_exist) {
-        printf("\nОШИБКА: Файлы %s и %s не найдены.\n", FILENAME_TEACHERS, FILENAME_EXAMS);
-        printf("Пожалуйста, скопируйте оба файла (%s и %s) в каталог программы.\n", FILENAME_TEACHERS, FILENAME_EXAMS);
+        printf("\nОШИБКА: Файлы %s и %s не найдены.\n", FILENAME_TEACHERS.c_str(), FILENAME_EXAMS.c_str());
+        printf("Пожалуйста, скопируйте оба файла (%s и %s) в каталог программы.\n", FILENAME_TEACHERS.c_str(), FILENAME_EXAMS.c_str());
         Pause_And_Return();
         return false;
     }
     // Случай 3: Нет файла преподавателей
     else if (!teachers_exist) {
-        printf("\nОШИБКА: Файл %s не найден.\n", FILENAME_TEACHERS);
-        printf("Файл %s найден. Пожалуйста, добавьте недостающий файл %s.\n", FILENAME_EXAMS, FILENAME_TEACHERS);
+        printf("\nОШИБКА: Файл %s не найден.\n", FILENAME_TEACHERS.c_str());
+        printf("Файл %s найден. Пожалуйста, добавьте недостающий файл %s.\n", FILENAME_EXAMS.c_str(), FILENAME_TEACHERS.c_str());
         Pause_And_Return();
         return false;
     }
     // Случай 4: Нет файла экзаменов
     else {
-        printf("\nОШИБКА: Файл %s не найден.\n", FILENAME_EXAMS);
-        printf("Файл %s найден. Пожалуйста, добавьте недостающий файл %s.\n", FILENAME_TEACHERS, FILENAME_EXAMS);
+        printf("\nОШИБКА: Файл %s не найден.\n", FILENAME_EXAMS.c_str());
+        printf("Файл %s найден. Пожалуйста, добавьте недостающий файл %s.\n", FILENAME_TEACHERS.c_str(), FILENAME_EXAMS.c_str());
         Pause_And_Return();
         return false;
     }
