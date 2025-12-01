@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 4.0)
-project(untitled3)
+project(Programm1)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(untitled3 main.cpp
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static -static-libgcc -static-libstdc++")
+
+add_executable(Programm1 main.cpp
         funcs.cpp
         funcs.h)
