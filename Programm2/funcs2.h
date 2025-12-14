@@ -9,21 +9,21 @@
 #include <vector>
 #include <map>
 
-// Структура для хранения данных о преподавателе
+// РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РґР°РЅРЅС‹С… Рѕ РїСЂРµРїРѕРґР°РІР°С‚РµР»Рµ
 struct Teacher {
-    std::string surname; // Фамилия преподавателя
-    std::string post;    // Должность
-    std::string subject; // Название предмета
+    std::string surname; // Р¤Р°РјРёР»РёСЏ РїСЂРµРїРѕРґР°РІР°С‚РµР»СЏ
+    std::string post;    // Р”РѕР»Р¶РЅРѕСЃС‚СЊ
+    std::string subject; // РќР°Р·РІР°РЅРёРµ РїСЂРµРґРјРµС‚Р°
 };
 
-// Структура для хранения данных об экзамене
+// РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РґР°РЅРЅС‹С… РѕР± СЌРєР·Р°РјРµРЅРµ
 struct Exam {
-    std::string subject; // Название предмета
-    std::string date;    // Дата проведения экзамена
-    std::string group;   // Номер группы
+    std::string subject; // РќР°Р·РІР°РЅРёРµ РїСЂРµРґРјРµС‚Р°
+    std::string date;    // Р”Р°С‚Р° РїСЂРѕРІРµРґРµРЅРёСЏ СЌРєР·Р°РјРµРЅР°
+    std::string group;   // РќРѕРјРµСЂ РіСЂСѓРїРїС‹
 };
 
-// === Основные функции программы ===
+// === РћСЃРЅРѕРІРЅС‹Рµ С„СѓРЅРєС†РёРё РїСЂРѕРіСЂР°РјРјС‹ ===
 void Main_Menu2();
 bool Check_File_Availability();
 void File_Report();
@@ -32,11 +32,11 @@ void Build_Exam_Index(std::map<std::string, std::vector<long>>& index);
 void Clean_Subject_Key(char* key);
 void Display_Subject_Data();
 
-// === Функции валидации и нормализации ===
+// === Р¤СѓРЅРєС†РёРё РІР°Р»РёРґР°С†РёРё Рё РЅРѕСЂРјР°Р»РёР·Р°С†РёРё ===
 bool isValidSubject(const char* str);
 void normalizeSentenceCase(char* str);
 
-// === Вспомогательные функции ввода ===
+// === Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё РІРІРѕРґР° ===
 int safe_input_int(int min_val, int max_val);
 
 #endif //PROGRAMM2_FUNCS_H
